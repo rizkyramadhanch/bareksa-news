@@ -87,6 +87,12 @@ func (repo *NewsRepositories) GetOne(ID int) (result models.News, err error) {
 		logger.Log.Println("[APP] Error : failed to get specific news ")
 		return result, errRow
 	}
+	arrTags, errGetTags := TagRepo.All()
+		if errGetTags != nil {
+			logger.Log.Println("[APP] Error : " + errGetTags.Error())
+			return result, errGetTags
+		}
+	result.Tags = arrTags
 	return result, nil
 }
 
