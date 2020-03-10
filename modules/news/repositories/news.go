@@ -5,14 +5,19 @@ import (
 	// "database/sql"
 	"bareksa-news/library/logger"
 	"bareksa-news/modules/news/models"
+	TagsRepo "bareksa-news/modules/tags/repositories"
 	"strconv"
 	"errors"
 )
 
 type NewsRepositories struct {}
 
+var TagRepo TagsRepo.TagsRepositories
+
+
+
 func (repo *NewsRepositories) All() (news []models.News, err error) {
-	rows, err := database.DB.Query("select id, news_title, news_content, status from news returning id")
+	rows, err := database.DB.Query("select id, news_title, news_content, status from news")
 
 	if err != nil {
 		logger.Log.Println("[APP] Error : " + err.Error())
@@ -33,11 +38,19 @@ func (repo *NewsRepositories) All() (news []models.News, err error) {
 			&news.Status,
 		)
 
+
 		if err != nil {
 			logger.Log.Println("[APP] Error : " + err.Error())
 			return nil, err
 		}
 		
+		arrTags, errGetTags := TagRepo.All()
+		if errGetTags != nil {
+			logger.Log.Println("[APP] Error : " + errGetTags.Error())
+			return nil, errGetTags
+		}
+
+		news.Tags = arrTags
 		arrNews = append(arrNews, news)
 	}
 	err = rows.Err()
