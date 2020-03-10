@@ -1,0 +1,6 @@
+db:
+  name: "bareksa"
+  host: "localhost"
+  port: 5432
+  user: "danyismail"
+  password: "b1smill4h"
