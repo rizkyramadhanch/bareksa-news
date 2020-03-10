@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-contrib/cors"
+	// "github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"bareksa-news/modules/news/api"
 )
@@ -14,6 +15,7 @@ func main() {
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"*"}
 	r.Use(cors.New(corsConfig))
+	r.StaticFile("/app.log", "./tmp/app.log")
 
 	r.GET("/", responseToUser)
 	r.GET("/news", NewsController.List)
