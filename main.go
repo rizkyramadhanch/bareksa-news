@@ -34,7 +34,7 @@ func main() {
 	newsRoute.POST("/add", NewsController.Add)
 	//Tags
 	tagsRoute.GET("/", TagsController.List)
-	tagsRoute.GET("/detail/:id", TagsController.Get)
+	tagsRoute.GET("/detail/:id", TagsController.Detail)
 
 	r.Run()
 }
