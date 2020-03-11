@@ -84,6 +84,32 @@ func (controller *NewsController) UpdateOne(ctx *gin.Context){
 	return
 }
 
+func (controller *NewsController) Status(ctx *gin.Context){
+	repo := repositories.NewsRepositories{}
+	status := ctx.Param("status")
+	listNews, err := repo.Status(status)
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Getting list by status error",
+			"error"   : err.Error(),
+		})
+		return
+	}
+	if len(listNews) > 0 {
+		ctx.JSON(400, gin.H{
+			"message" : "Getting list of news by status successfully",
+			"data"   : listNews,
+		})
+		return
+	} else {
+		ctx.JSON(400, gin.H{
+			"message" 	: "News with status " + status + " not found",
+			"data"   	: "No Data",
+		})
+		return
+	}
+}
+
 // func removeLBR(text string) string {
 //     re := regexp.MustCompile(`\x{000D}\x{000A}|[\x{000A}\x{000B}\x{000C}\x{000D}\x{0085}\x{2028}\x{2029}]`)
 //     return re.ReplaceAllString(text, ``)
