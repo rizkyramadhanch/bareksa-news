@@ -96,6 +96,56 @@ func (repo *NewsRepositories) GetOne(ID int) (result models.News, err error) {
 	return result, nil
 }
 
+func (repo *NewsRepositories) Status(status string) (news []models.News, err error) {
+	rows, err := database.DB.Query("select id, news_title, news_content, status from news where status = $1", status)
+
+	if err != nil {
+		logger.Log.Println("[APP] Error : " + err.Error())
+		return nil, err
+	}
+	defer rows.Close()
+
+	arrNews := []models.News{}
+	// Iterate rows
+	for rows.Next() {
+		news := models.News{}
+
+		// Set current row data to variable
+		err = rows.Scan(
+			&news.ID,
+			&news.Title,
+			&news.Description,
+			&news.Status,
+		)
+
+
+		if err != nil {
+			logger.Log.Println("[APP] Error : " + err.Error())
+			return nil, err
+		}
+		
+		arrTags, errGetTags := TagRepo.All()
+		if errGetTags != nil {
+			logger.Log.Println("[APP] Error : " + errGetTags.Error())
+			return nil, errGetTags
+		}
+
+		news.Tags = arrTags
+		arrNews = append(arrNews, news)
+	}
+	err = rows.Err()
+	if err != nil {
+		logger.Log.Println("[APP] Error : " + err.Error())
+		return nil, err
+	}
+	return arrNews, nil
+}
+
+
+
+
+
+
 
 
 
