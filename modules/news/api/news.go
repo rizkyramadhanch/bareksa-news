@@ -51,7 +51,7 @@ func (controller *NewsController) GetOne(ctx *gin.Context){
 		})
 		return
 	}
-	ctx.JSON(400, gin.H{
+	ctx.JSON(200, gin.H{
 		"message" : "Getting news detail succesfully",
 		"data"   : result,
 	})
@@ -60,7 +60,16 @@ func (controller *NewsController) GetOne(ctx *gin.Context){
 
 func (controller *NewsController) UpdateOne(ctx *gin.Context){
 	repo := repositories.NewsRepositories{}
-	form := models.News{}
+	form := models.CreateNews{}
+	id := ctx.Param("id")
+	i, e := strconv.Atoi(id)
+	if e != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Binding update data error",
+			"error"   : e.Error(),
+		})
+		return
+	}
 	errBind := ctx.ShouldBindJSON(&form)
 	if errBind != nil {
 		ctx.JSON(400, gin.H{
@@ -69,7 +78,7 @@ func (controller *NewsController) UpdateOne(ctx *gin.Context){
 		})
 		return
 	}
-	result, err := repo.Update(form)
+	result, err := repo.Update(i, form)
 	if err != nil {
 		ctx.JSON(400, gin.H{
 			"message" : "Failed to update news",
@@ -87,7 +96,15 @@ func (controller *NewsController) UpdateOne(ctx *gin.Context){
 func (controller *NewsController) Status(ctx *gin.Context){
 	repo := repositories.NewsRepositories{}
 	status := ctx.Param("status")
-	listNews, err := repo.Status(status)
+	i, e := strconv.Atoi(status)
+	if e != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Getting list by status error",
+			"error"   : e.Error(),
+		})
+		return
+	}
+	listNews, err := repo.Status(i)
 	if err != nil {
 		ctx.JSON(400, gin.H{
 			"message" : "[NEWS CONTROLLER] Getting list by status error",
@@ -96,8 +113,8 @@ func (controller *NewsController) Status(ctx *gin.Context){
 		return
 	}
 	if len(listNews) > 0 {
-		ctx.JSON(400, gin.H{
-			"message" : "Getting list of news by status successfully",
+		ctx.JSON(200, gin.H{
+			"message" : "Getting list of news by status " + listNews[0].Status + " successfully",
 			"data"   : listNews,
 		})
 		return
@@ -108,6 +125,66 @@ func (controller *NewsController) Status(ctx *gin.Context){
 		})
 		return
 	}
+}
+
+func (controller *NewsController) Topic(ctx *gin.Context){
+	repo := repositories.NewsRepositories{}
+	topic := ctx.Param("topic")
+	i, e := strconv.Atoi(topic)
+	if e != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Getting news by topic error",
+			"error"   : e.Error(),
+		})
+		return
+	}
+	listNews, err := repo.Topic(i)
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Getting list by status error",
+			"error"   : err.Error(),
+		})
+		return
+	}
+	if len(listNews) > 0 {
+		ctx.JSON(200, gin.H{
+			"message" : "Getting list of news by status " + listNews[0].Status + " successfully",
+			"data"   : listNews,
+		})
+		return
+	} else {
+		ctx.JSON(400, gin.H{
+			"message" 	: "News with status " + topic + " not found",
+			"data"   	: "No Data",
+		})
+		return
+	}
+}
+
+func (controller *NewsController) Add(ctx *gin.Context){
+	repo := repositories.NewsRepositories{}
+	form := models.CreateNews{}
+	errBind := ctx.ShouldBindJSON(&form)
+	if errBind != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "Bind data while creating news error",
+			"error"   : errBind,
+		})
+		return
+	}
+	result, err := repo.Add(form)
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "Create news error",
+			"error"   : err,
+		})
+		return
+	}
+	ctx.JSON(200, gin.H{
+		"message" : "Create a news succesfully",
+		"data"   : result,
+	})
+	return
 }
 
 // func removeLBR(text string) string {
