@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-contrib/cors"
-	// "github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"bareksa-news/modules/news/api"
 	TagsAPI "bareksa-news/modules/tags/api"
+	
 )
 
 func main() {
@@ -18,11 +18,17 @@ func main() {
 	corsConfig.AllowOrigins = []string{"*"}
 	r.Use(cors.New(corsConfig))
 	r.StaticFile("/app.log", "./tmp/app.log")
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"message": "Page not found"})
+	})
+
+	newsRoute := r.Group("/news")
 	//News
 	r.GET("/", responseToUser)
-	r.GET("/news", NewsController.List)
-	r.GET("/news/:id", NewsController.GetOne)
-	r.POST("/news/update", NewsController.UpdateOne)
+	newsRoute.GET("/", NewsController.List)
+	newsRoute.GET("/detail/:id", NewsController.GetOne)
+	newsRoute.GET("/status/:status", NewsController.Status)
+	newsRoute.POST("/update", NewsController.UpdateOne)
 	//Tags
 	r.GET("/tags", TagsController.List)
 
