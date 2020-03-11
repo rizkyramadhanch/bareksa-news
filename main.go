@@ -17,20 +17,24 @@ func main() {
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"*"}
 	r.Use(cors.New(corsConfig))
-	r.StaticFile("/app.log", "./tmp/app.log")
+	r.StaticFile("app.log", "./tmp/app.log")
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
 	})
 
 	newsRoute := r.Group("/news")
+	tagsRoute := r.Group("/tags")
 	//News
 	r.GET("/", responseToUser)
 	newsRoute.GET("/", NewsController.List)
 	newsRoute.GET("/detail/:id", NewsController.GetOne)
+	newsRoute.POST("/update/:id", NewsController.UpdateOne)
 	newsRoute.GET("/status/:status", NewsController.Status)
-	newsRoute.POST("/update", NewsController.UpdateOne)
+	newsRoute.GET("/topic/:topic", NewsController.Topic)
+	newsRoute.POST("/add", NewsController.Add)
 	//Tags
-	r.GET("/tags", TagsController.List)
+	tagsRoute.GET("/", TagsController.List)
+	tagsRoute.GET("/detail/:id", TagsController.Get)
 
 	r.Run()
 }
