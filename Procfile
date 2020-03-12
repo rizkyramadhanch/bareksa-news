@@ -1,1 +1,1 @@
-web: bareksa
+web: bin/bareksa
