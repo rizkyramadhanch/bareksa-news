@@ -1,6 +1,7 @@
 package database
 
 import (
+	"os"
 	"database/sql"
 	_ "github.com/lib/pq"
 	"fmt"
@@ -12,9 +13,9 @@ import (
 var DB *sql.DB
 
 func init() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		config.Config.DB.Host, config.Config.DB.Port, config.Config.DB.User, config.Config.DB.Password, config.Config.DB.Name)
+		os.Getenv("host"), os.Getenv("port"), os.Getenv("user"), os.Getenv("password"), os.Getenv("name"))
 
 	var err error
 	fmt.Println(config.Config.DB.Name)
