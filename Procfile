@@ -1,1 +1,1 @@
-web: bin/bareksa
+web: bareksa-news
