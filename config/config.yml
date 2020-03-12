@@ -1,6 +1,13 @@
 db:
-  name: "bareksa"
-  host: "localhost"
+  name: "df3qtivdg9su1c"
+  host: "ec2-52-73-247-67.compute-1.amazonaws.com"
   port: 5432
-  user: "danyismail"
-  password: "b1smill4h"
+  user: "qnmdrhstgkyrrj"
+  password: "a33f937ebe2d91e5bd9b972cdd95e069ad10b67f80d91c860a3cc56eb9768b84"
+
+# db:
+#   name: "bareksa"
+#   host: "localhost"
+#   port: 5432
+#   user: "danyismail"
+#   password: "b1smill4h"
