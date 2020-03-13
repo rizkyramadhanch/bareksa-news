@@ -114,7 +114,7 @@ func (repo *TagsRepositories) Update(form models.Tags) (result string, err error
 }
 
 func (repo *TagsRepositories) Delete(id int) (result string, err error) {
-	_, errExec := database.DB.Exec("delete from tags where id = $2 returning id", id)
+	_, errExec := database.DB.Exec("delete from tags where id = $1 returning id", id)
 	if errExec != nil {
 		logger.Log.Println("[APP] Error : " + errExec.Error())
 		return "Query delete failed	", errors.New("Failed to deleted tag")
