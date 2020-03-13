@@ -46,9 +46,9 @@ func init() {
 
 		fmt.Println(os.Getenv("host"))
 		
-		psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+
+		psqlInfo = fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		os.Getenv("host"), 5432, os.Getenv("user"), os.Getenv("password"), os.Getenv("name"))
+		os.Getenv("host"), os.Getenv("port"), os.Getenv("user"), os.Getenv("password"), os.Getenv("name"))
 
 		var err error
 		DB, err = sql.Open("postgres", psqlInfo)
