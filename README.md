@@ -8,24 +8,27 @@ API Documentation
 ### Home Page
 [GET] `https://bareksa.herokuapp.com/`
 Response : 
+```
 {
 "Status": "OK"
 }
-
+```
 ### Handling No Route
 
 [GET] `https://bareksa.herokuapp.com/no-route`
 
 Response : 
+```
 {
 "message": "Page not found"
 }
-
+```
 ### Get All News
 
 [GET] `https://bareksa.herokuapp.com/news/list`
 
-Response : 
+Response :
+``` 
 {
     "data": [
         {
@@ -98,7 +101,7 @@ Response :
     ],
     "message": "Getting list of news successfully"
 }
-
+```
 Get News by ID 
 
 require newsID on url
@@ -130,19 +133,21 @@ require newsID on url
 ### [POST] `https://bareksa.herokuapp.com/news/update/{newsID}`
 
 require JSON body : 
+```
 {
     "title": "New Title",
     "description": "New description",
     "status_id": {statusID},
     "topic_id": 1
 }
-
+```
 Response : 
+```
 {
     "data": "News ID 1 successfully updated",
     "message": "Update news successfully"
 }
-
+```
 Add News 
 
 require newsID on url
@@ -150,18 +155,21 @@ require newsID on url
 ### [POST] `https://bareksa.herokuapp.com/news/add`
 
 require JSON body : 
+```
 {
 	"title"	: "New title",
 	"description" : "New Description",
 	"status_id" :1,
 	"topic_id" :1
 }
-
+```
 Response : 
+```
 {
     "data": "A news with title Coba tambah lagihas been created",
     "message": "Create a news succesfully"
 }
+```
 
 
 
