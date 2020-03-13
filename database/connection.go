@@ -23,7 +23,7 @@ func init() {
 	gin.SetMode(gin.ReleaseMode)
 
 	if gin.Mode() == "debug" {
-		logger.Log.Println("entering debug mode")
+		logger.Log.Println("[APP] DEBUG MODE")
 		psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		config.Config.DB.Host, config.Config.DB.Port, config.Config.DB.User, config.Config.DB.Password, config.Config.DB.Name)
@@ -42,7 +42,7 @@ func init() {
 
 		logger.Log.Println("[APP] Database successfully connected!")
 	} else if gin.Mode() == "release" {
-		logger.Log.Println("entering release mode")
+		logger.Log.Println("[APP] RELEASE MODE")
 
 		fmt.Println(os.Getenv("host"))
 		
