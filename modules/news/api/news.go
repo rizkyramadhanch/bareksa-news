@@ -32,7 +32,7 @@ func (controller *NewsController) List(ctx *gin.Context){
 	
 }
 
-func (controller *NewsController) GetOne(ctx *gin.Context){
+func (controller *NewsController) Detail(ctx *gin.Context){
 	repo := repositories.NewsRepositories{}
 	ID := ctx.Param("id")
 	i, e := strconv.Atoi(ID)
@@ -58,7 +58,7 @@ func (controller *NewsController) GetOne(ctx *gin.Context){
 	return
 }
 
-func (controller *NewsController) UpdateOne(ctx *gin.Context){
+func (controller *NewsController) Update(ctx *gin.Context){
 	repo := repositories.NewsRepositories{}
 	form := models.CreateNews{}
 	id := ctx.Param("id")
@@ -213,8 +213,29 @@ func (controller *NewsController) Delete(ctx *gin.Context){
 	return
 }
 
-// func removeLBR(text string) string {
-//     re := regexp.MustCompile(`\x{000D}\x{000A}|[\x{000A}\x{000B}\x{000C}\x{000D}\x{0085}\x{2028}\x{2029}]`)
-//     return re.ReplaceAllString(text, ``)
-// }
+func (controller *NewsController) NewsTag(ctx *gin.Context){
+	repo := repositories.NewsRepositories{}
+	form := models.TagsToNews{}
+	e := ctx.ShouldBindJSON(&form)
+	if e != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Binding adding tag to news data error",
+			"error"   : e.Error(),
+		})
+		return
+	}
+	result, err := repo.NewsTag(form.NewsID, form.TagID)
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"status" : "Failed",
+			"error"   : err,
+		})
+		return
+	}
+	ctx.JSON(200, gin.H{
+		"status" : "Adding tag to news succesfully",
+		"data"   : result,
+	})
+	return
+}
 

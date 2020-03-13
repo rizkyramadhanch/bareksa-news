@@ -18,4 +18,9 @@ type CreateNews struct {
 	Tags         string 	`json:"tag"`
 }
 
+type TagsToNews struct {
+	NewsID	int	`json:"news_id"` 
+	TagID	int	`json:"tag_id"` 
+}
+
 
