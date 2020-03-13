@@ -106,6 +106,7 @@ require newsID on url
 ### [GET] `https://bareksa.herokuapp.com/news/detail/{newsID}`
 
 Response : 
+```
 {
     "data": {
         "id": 1,
@@ -121,7 +122,7 @@ Response :
     },
     "message": "Getting news detail succesfully"
 }
-
+```
 Update News
 
 require newsID on url
