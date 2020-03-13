@@ -24,7 +24,7 @@ func (controller *NewsController) List(ctx *gin.Context){
 		return
 	}
 	
-	ctx.JSON(400, gin.H{
+	ctx.JSON(200, gin.H{
 		"message" : "Getting list of news successfully",
 		"data"   : listNews,
 	})
@@ -182,6 +182,32 @@ func (controller *NewsController) Add(ctx *gin.Context){
 	}
 	ctx.JSON(200, gin.H{
 		"message" : "Create a news succesfully",
+		"data"   : result,
+	})
+	return
+}
+
+func (controller *NewsController) Delete(ctx *gin.Context){
+	repo := repositories.NewsRepositories{}
+	id := ctx.Param("id")
+	i, e := strconv.Atoi(id)
+	if e != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "[NEWS CONTROLLER] Binding update data error",
+			"error"   : e.Error(),
+		})
+		return
+	}
+	result, err := repo.Delete(i)
+	if err != nil {
+		ctx.JSON(400, gin.H{
+			"message" : "Delete news error",
+			"error"   : err,
+		})
+		return
+	}
+	ctx.JSON(200, gin.H{
+		"message" : "Delete news succesfully",
 		"data"   : result,
 	})
 	return

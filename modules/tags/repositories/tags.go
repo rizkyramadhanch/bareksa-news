@@ -46,7 +46,7 @@ func (repo *TagsRepositories) All() (news []models.Tags, err error) {
 	return arrTags, nil
 }
 
-func (repo *TagsRepositories) Get(id int) (news []models.Tags, err error) {
+func (repo *TagsRepositories) GetByNews(id int) (news []models.Tags, err error) {
 	rows, err := database.DB.Query("select id, tag_name from tags where news_id = $1", id)
 
 	if err != nil {

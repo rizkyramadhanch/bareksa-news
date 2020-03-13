@@ -18,13 +18,12 @@ var TagRepo TagsRepo.TagsRepositories
 
 
 func (repo *NewsRepositories) All() (news []models.News, err error) {
-	rows, err := database.DB.Query("select a.id, a.news_title, a.news_content, b.topic_name, c.name from news a join topics b on a.topic_id = b.id join status c on a.status_id = c.id")
+	rows, err := database.DB.Query("select a.id, a.news_title, a.news_content, b.topic_name, c.name from news a join topics b on a.topic_id = b.id join status c on a.status_id = c.id where status_id = 1")
 
 	if err != nil {
 		logger.Log.Println("[APP] Error : " + err.Error())
 		return nil, err
 	}
-	defer rows.Close()
 
 	var arrNews []models.News
 	// Iterate rows
@@ -43,7 +42,7 @@ func (repo *NewsRepositories) All() (news []models.News, err error) {
 			return nil, err
 		}
 		
-		arrTags, errGetTags := TagRepo.Get(nNews.ID)
+		arrTags, errGetTags := TagRepo.GetByNews(nNews.ID)
 		if errGetTags != nil {
 			logger.Log.Println("[APP] Error : " + errGetTags.Error())
 			return nil, errGetTags
@@ -90,7 +89,7 @@ func (repo *NewsRepositories) GetOne(ID int) (result models.News, err error) {
 		logger.Log.Println("[APP] Error : " + errRow.Error())
 		return result, errRow
 	}
-	arrTags, errGetTags := TagRepo.Get(ID)
+	arrTags, errGetTags := TagRepo.GetByNews(ID)
 		if errGetTags != nil {
 			logger.Log.Println("[APP] Error : " + errGetTags.Error())
 			return result, errGetTags
@@ -128,7 +127,7 @@ func (repo *NewsRepositories) Status(status int) (news []models.News, err error)
 			return nil, err
 		}
 		
-		arrTags, errGetTags := TagRepo.Get(news.ID)
+		arrTags, errGetTags := TagRepo.GetByNews(news.ID)
 		if errGetTags != nil {
 			logger.Log.Println("[APP] Error : " + errGetTags.Error())
 			return nil, errGetTags
@@ -168,7 +167,7 @@ func (repo *NewsRepositories) Topic(topic int) (news []models.News, err error) {
 			return nil, err
 		}
 		
-		arrTags, errGetTags := TagRepo.Get(news.ID)
+		arrTags, errGetTags := TagRepo.GetByNews(news.ID)
 		if errGetTags != nil {
 			logger.Log.Println("[APP] Error : " + errGetTags.Error())
 			return nil, errGetTags
@@ -191,6 +190,28 @@ func (repo *NewsRepositories) Add(form models.CreateNews) (result string, err er
 		}
 	return "A news with title " + form.Title + "has been created" , nil
 }
+
+func (repo *NewsRepositories) Delete(id int) (result string, err error) {
+	rows, err := database.DB.Query("update news set status_id = 3 where id = $1 returning id", id)
+	var checker int
+	for rows.Next(){
+		errScan := rows.Scan(&checker)
+		if errScan != nil {
+			logger.Log.Println("[APP] Error : failed to update news " + errScan.Error())
+			return "Failed", err
+		}
+	}
+	s := strconv.Itoa(checker)
+	errNotFound := errors.New("News with id not found")
+	if s == "0" {
+		logger.Log.Println("[APP] Error : " + errNotFound.Error())
+		return "News ID not found", errNotFound
+	} else {
+		return "News ID " + s + " successfully deleted", nil
+	}
+}
+
+
 
 
 
