@@ -102,11 +102,11 @@ Response :
     "message": "Getting list of news successfully"
 }
 ```
-Get News by ID 
+### Get News by ID 
 
 require newsID on url
 
-### [GET] `https://bareksa.herokuapp.com/news/detail/{newsID}`
+[GET] `https://bareksa.herokuapp.com/news/detail/{newsID}`
 
 Response : 
 ```
@@ -126,11 +126,11 @@ Response :
     "message": "Getting news detail succesfully"
 }
 ```
-Update News
+### Update News
 
 require newsID on url
 
-### [POST] `https://bareksa.herokuapp.com/news/update/{newsID}`
+[POST] `https://bareksa.herokuapp.com/news/update/{newsID}`
 
 require JSON body : 
 ```
@@ -148,11 +148,11 @@ Response :
     "message": "Update news successfully"
 }
 ```
-Add News 
+### Add News 
 
 require newsID on url
 
-### [POST] `https://bareksa.herokuapp.com/news/add`
+[POST] `https://bareksa.herokuapp.com/news/add`
 
 require JSON body : 
 ```
@@ -168,6 +168,203 @@ Response :
 {
     "data": "A news with title Coba tambah lagihas been created",
     "message": "Create a news succesfully"
+}
+```
+
+### Delete News 
+
+require newsID on url
+
+[DELETE] `https://bareksa.herokuapp.com/news/delete/{newsID}`
+
+Response : 
+```
+{
+    "data": "News ID 15 successfully deleted",
+    "message": "Delete news succesfully"
+}
+```
+
+### Add Tags to News 
+
+require JSON body
+
+[POST] `https://bareksa.herokuapp.com/news/add`
+
+require JSON body : 
+```
+	{
+        "news_id" : 1,
+        "tag_id" : 3
+    }
+```
+Response : 
+```
+{
+    "data": "Tag has been added to news id 1",
+    "status": "Adding tag to news succesfully"
+}
+```
+
+### Get All Tags 
+
+require newsID on url
+
+[GET] `https://bareksa.herokuapp.com/tags`
+
+Response : 
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Investment"
+        },
+        {
+            "id": 2,
+            "name": "mutual fund updated"
+        },
+        {
+            "id": 3,
+            "name": "Ini Tag Baru"
+        }
+    ],
+    "message": "Getting list of news successfully"
+}
+```
+### Add Tag 
+
+require JSON body : 
+
+{
+	"name" : "Ini Tag Baru"
+}
+
+[POST] `https://bareksa.herokuapp.com/tags/add`
+
+Response : 
+
+{
+    "data": "A news with title Ini Tag Baru has been created",
+    "message": "Create a new tag succesfully"
+}
+
+### Get Tag by ID 
+
+require newsID on url
+
+[GET] `https://bareksa.herokuapp.com/tags/detail/{TagID}`
+
+Response : 
+```
+{
+    "data": {
+        "id": 3,
+        "name": "Ini Tag Baru"
+    },
+    "message": "Getting list of news successfully"
+}
+```
+
+### Update Tag 
+
+require JSON body : 
+
+{
+    "id": 2,
+    "name": "new text here"
+ }
+
+[POST] `https://bareksa.herokuapp.com/tags/update`
+
+Response : 
+```
+{
+    "data": "Tag ID 2 successfully updated",
+    "message": "Update tag successfully"
+}
+```
+
+### Delete Tag 
+
+require newsID on url
+
+[DELETE] `https://bareksa.herokuapp.com/tags/delete`
+
+Response : 
+```
+{
+    "data": "Tag has been deleted",
+    "status": "Delete tag successfully"
+}
+```
+
+### Filter by Status
+
+require statusID on url 
+
+[GET] `https://bareksa.herokuapp.com/news/status/{statusID}`
+
+Response : 
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "What is Investment Banking?",
+            "description": "Investment banking is the division of a bank or financial institution that serves governments, corporations, and institutions by providing underwriting (capital raising) and mergers and acquisitions (M&A) advisory services. Investment banks act as intermediaries between investors (who have money to invest) and corporations (who require capital to grow and run their businesses). This guide will cover what investment banking is and what investment bankers actually do.",
+            "status": "draft",
+            "topic": "investment",
+            "tag": [
+                "Investment",
+                "mutual fund updated",
+                "Ini Tag Baru"
+            ]
+        }
+    ],
+    "message": "Getting list of news by status draft successfully"
+}
+```
+
+### Filter by Topic
+
+require topicID on url 
+
+[GET] `https://bareksa.herokuapp.com/news/topic/{topicID}`
+
+Response : 
+```
+{
+    "data": [
+        {
+            "id": 15,
+            "title": "COba tambah",
+            "description": "sisinya",
+            "status": "publish",
+            "topic": "market",
+            "tag": null
+        },
+        {
+            "id": 14,
+            "title": "hahahha",
+            "description": "hihihihh",
+            "status": "publish",
+            "topic": "market",
+            "tag": [
+                "Investment",
+                "mutual fund updated"
+            ]
+        },
+        {
+            "id": 12,
+            "title": "Investasi Emas",
+            "description": "lorem ipsum bla blabla",
+            "status": "publish",
+            "topic": "market",
+            "tag": null
+        }
+    ],
+    "message": "Getting list of news by topic publish successfully"
 }
 ```
 
