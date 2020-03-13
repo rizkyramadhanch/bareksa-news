@@ -5,22 +5,26 @@ API Documentation
 
 ## Production Mode
 
-###Home Page
+### Home Page
 [GET] `https://bareksa.herokuapp.com/`
 Response : 
 {
 "Status": "OK"
 }
 
-###Handling No Route
+### Handling No Route
+
 [GET] `https://bareksa.herokuapp.com/no-route`
+
 Response : 
 {
 "message": "Page not found"
 }
 
-Get All News
+### Get All News
+
 [GET] `https://bareksa.herokuapp.com/news/list`
+
 Response : 
 {
     "data": [
@@ -96,8 +100,11 @@ Response :
 }
 
 Get News by ID 
+
 require newsID on url
-[GET] https://bareksa.herokuapp.com/news/detail/{newsID}
+
+### [GET] `https://bareksa.herokuapp.com/news/detail/{newsID}`
+
 Response : 
 {
     "data": {
@@ -115,9 +122,11 @@ Response :
     "message": "Getting news detail succesfully"
 }
 
-Update News 
+Update News
+
 require newsID on url
-[POST] https://bareksa.herokuapp.com/news/update/{newsID}
+
+### [POST] `https://bareksa.herokuapp.com/news/update/{newsID}`
 
 require JSON body : 
 {
@@ -134,8 +143,10 @@ Response :
 }
 
 Add News 
+
 require newsID on url
-[POST] https://bareksa.herokuapp.com/news/add
+
+### [POST] `https://bareksa.herokuapp.com/news/add`
 
 require JSON body : 
 {
