@@ -26,15 +26,20 @@ func main() {
 	tagsRoute := r.Group("/tags")
 	//News
 	r.GET("/", responseToUser)
-	newsRoute.GET("/", NewsController.List)
-	newsRoute.GET("/detail/:id", NewsController.GetOne)
-	newsRoute.POST("/update/:id", NewsController.UpdateOne)
+	newsRoute.GET("/list", NewsController.List)
+	newsRoute.GET("/detail/:id", NewsController.Detail)
+	newsRoute.POST("/update/:id", NewsController.Update)
 	newsRoute.GET("/status/:status", NewsController.Status)
 	newsRoute.GET("/topic/:topic", NewsController.Topic)
 	newsRoute.POST("/add", NewsController.Add)
+	newsRoute.POST("/tag/add", NewsController.NewsTag)
+	newsRoute.DELETE("/delete/:id", NewsController.Delete)
 	//Tags
 	tagsRoute.GET("/", TagsController.List)
+	tagsRoute.POST("/add", TagsController.Add)
 	tagsRoute.GET("/detail/:id", TagsController.Detail)
+	tagsRoute.POST("/update", TagsController.Update)
+	tagsRoute.DELETE("/delete/:id", TagsController.Delete)
 
 	r.Run()
 }
