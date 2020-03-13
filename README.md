@@ -3,24 +3,24 @@ simple crud using gin golang
 
 API Documentation
 
-# Production Mode
+## Production Mode
 
-Home Page
-[GET] https://bareksa.herokuapp.com/
+###Home Page
+[GET] `https://bareksa.herokuapp.com/`
 Response : 
 {
 "Status": "OK"
 }
 
-Handling No Route
-[GET] https://bareksa.herokuapp.com/no-route
+###Handling No Route
+[GET] `https://bareksa.herokuapp.com/no-route`
 Response : 
 {
 "message": "Page not found"
 }
 
 Get All News
-[GET] https://bareksa.herokuapp.com/news/list
+[GET] `https://bareksa.herokuapp.com/news/list`
 Response : 
 {
     "data": [
